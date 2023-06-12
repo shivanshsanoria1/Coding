@@ -1,13 +1,13 @@
 class Solution {
 public:
-    int maxSubArray(vector<int>& nums) { //Kadane's algo. , T.C.=O(n) , S.C.=O(1)
-        int max_sum= nums[0];
-        int curr_sum= nums[0];
+    int maxSubArray(vector<int>& nums) { // Kadane's algo., T.C.=O(n), S.C.=O(1)
+        int maxSum = nums[0];
+        int currSum = nums[0];
         for(int i=1; i<nums.size(); i++)
         {
-            curr_sum= max(nums[i], nums[i] + curr_sum);
-            max_sum= max(max_sum, curr_sum);
+            currSum = max(nums[i], nums[i] + currSum);
+            maxSum = max(maxSum, currSum);
         }
-        return max_sum;
+        return maxSum;
     }
 };
