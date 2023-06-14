@@ -1,7 +1,8 @@
 class Solution {
 public:
     bool isCyclic(vector<vector<int>>& graph, vector<int>& visited, int curr){
-        if(visited[curr] == 2) // trying to process an already processing node, ie, cycle found
+        // trying to process an already processing node, ie, cycle found
+        if(visited[curr] == 2) 
             return true;
         visited[curr] = 2; // mark the curr node as processing
         for(int i=0; i<graph[curr].size(); i++)
@@ -13,11 +14,12 @@ public:
     }
     
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<vector<int>> graph(numCourses);
+        int n=numCourses;
+        vector<vector<int>> graph(n);
         for(auto it: prerequisites) // build the graph
             graph[it[0]].push_back(it[1]);
-        vector<int> visited(numCourses, 0);
-        for(int i=0; i<numCourses; i++)
+        vector<int> visited(n, 0);
+        for(int i=0; i<n; i++)
             if(visited[i] == 0) // curr node is unvisited
                 if(isCyclic(graph, visited, i) == true)
                     return false;
@@ -25,4 +27,4 @@ public:
     }
 };
 // a -> b: indicates that to take the course a we need to take course b first
-// 0:unvisited, 1:processed, 2:processing node
+// 0: unvisited, 1: processed, 2: processing node

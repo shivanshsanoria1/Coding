@@ -11,24 +11,23 @@
  */
 class Solution {
 public:
-    bool isCompleteTree(TreeNode* root) { //bfs
-        bool flag=true; //initially no NULL nodes
-        TreeNode *curr;
+    bool isCompleteTree(TreeNode* root) { // BFS
+        bool isNull = false; // initially no NULL nodes
         queue<TreeNode*> q;
         q.push(root);
         while(!q.empty())
         {
-            curr= q.front();
+            TreeNode* curr = q.front();
             q.pop();
-            if(curr==NULL) //NULL node found
-                flag=false;
-            else
+            if(curr == NULL) // NULL node found
             {
-                if(flag==false) //non-NULL node found after a NULL node
-                    return false;
-                q.push(curr->left);
-                q.push(curr->right);
+                isNull = true;
+                continue;
             }
+            if(isNull) // non-NULL node found after a NULL node
+                return false;
+            q.push(curr->left);
+            q.push(curr->right);
         }
         return true;
     }

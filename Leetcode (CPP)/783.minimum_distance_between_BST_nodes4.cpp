@@ -11,22 +11,21 @@
  */
 class Solution {
 public:
-    TreeNode* prev = NULL;
-
-    void inorder(TreeNode* curr, int& minDiff){
+    void inorder(TreeNode* curr, int& prevVal, int& minDiff){
         if(curr == NULL)
             return;
-        inorder(curr->left, minDiff);
-        if(prev != NULL) // prev node exists
-            minDiff = min(minDiff, curr->val - prev->val);
-        prev = curr; // update prev node
-        inorder(curr->right, minDiff);
+        inorder(curr->left, prevVal, minDiff);
+        if(prevVal != -1) // prev val exists
+            minDiff = min(minDiff, curr->val - prevVal);
+        prevVal = curr->val; // update prev val with curr val
+        inorder(curr->right, prevVal, minDiff);
     }
-
+    
     int minDiffInBST(TreeNode* root) { // S.C.=O(1)
         int minDiff = INT_MAX;
-        inorder(root, minDiff);
-        return minDiff; 
+        int prevVal = -1;
+        inorder(root, prevVal, minDiff);
+        return minDiff;
     }
 };
 // inorder traversal of BST gives data in ascending order
