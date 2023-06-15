@@ -11,16 +11,14 @@
  */
 class Solution {
 public:
-    int maxLevelSum(TreeNode* root) {
+    long long kthLargestLevelSum(TreeNode* root, int k) {
+        vector<long long int> levelSums;
         queue<TreeNode*> q;
         q.push(root);
-        int maxLevelSum = INT_MIN, maxLevel = 0;
-        int level = 0;
         while(!q.empty())
         {
             int size = q.size();
-            level++;
-            int levelSum = 0;
+            long long int levelSum = 0;
             while(size--) 
             {
                 TreeNode *curr = q.front();
@@ -31,12 +29,12 @@ public:
                     q.push(curr->right); 
                 levelSum += curr->val;
             }
-            if(levelSum > maxLevelSum)
-            {
-                maxLevelSum = levelSum; // update maxLevelSum with curr levelSum
-                maxLevel = level; // update maxLevel with curr level num
-            }
+            levelSums.push_back(levelSum);
         }
-        return maxLevel;
+        int n = levelSums.size();
+        if(k > n) // fewer than k elements in levelSums vector
+            return -1;
+        sort(levelSums.begin(), levelSums.end());
+        return levelSums[n-k]; // return the kth max levleSum
     }
 };

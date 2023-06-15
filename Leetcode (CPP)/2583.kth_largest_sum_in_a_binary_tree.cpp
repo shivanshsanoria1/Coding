@@ -11,16 +11,14 @@
  */
 class Solution {
 public:
-    int maxLevelSum(TreeNode* root) {
+    long long kthLargestLevelSum(TreeNode* root, int k) {
+        priority_queue<long long int> pq; // max-heap
         queue<TreeNode*> q;
         q.push(root);
-        int maxLevelSum = INT_MIN, maxLevel = 0;
-        int level = 0;
         while(!q.empty())
         {
             int size = q.size();
-            level++;
-            int levelSum = 0;
+            long long int levelSum = 0;
             while(size--) 
             {
                 TreeNode *curr = q.front();
@@ -31,12 +29,12 @@ public:
                     q.push(curr->right); 
                 levelSum += curr->val;
             }
-            if(levelSum > maxLevelSum)
-            {
-                maxLevelSum = levelSum; // update maxLevelSum with curr levelSum
-                maxLevel = level; // update maxLevel with curr level num
-            }
+            pq.push(levelSum);
         }
-        return maxLevel;
+        if(k > pq.size()) // fewer than k elements in heap
+            return -1;
+        while(--k) // pop (k-1) elements from heap
+            pq.pop();
+        return pq.top();
     }
 };

@@ -10,32 +10,39 @@
  * };
  */
 class Solution {
+private:
+    int parValX = -1, parValY = -1; // parent values of nodes with value x and y
+    int levelX = -1, levelY = -1; // level values of nodes with value x and y
+    bool areCousin = false;
+
 public:
-    int levelglobal, parentglobal;
-    bool isCousins(TreeNode* root, int x, int y) {
-        int levelx, levely, parentx, parenty;
-        preorder(root,x,root->val,0);
-        levelx=levelglobal;
-        parentx=parentglobal;
-        preorder(root,y,root->val,0);
-        levely=levelglobal;
-        parenty=parentglobal;
-        if(levelx==levely && parentx!=parenty)
-            return true;
-        return false;
-    }
-    
-    void preorder(TreeNode *root, int a, int parent, int level)
-    {
-        if(root==NULL)
+    void dfs(TreeNode* curr, int parVal, int level, int x, int y){
+        if(curr == NULL)
             return;
-        if(root->val==a)
+        if(curr->val == x) // found node with val x
         {
-            levelglobal=level;
-            parentglobal=parent;
-            return;
+            parValX = parVal;
+            levelX = level;
         }
-        preorder(root->left,a,root->val,level+1);
-        preorder(root->right,a,root->val,level+1);
+        else if(curr->val == y) // found node with val y
+        {
+            parValY = parVal;
+            levelY = level;
+        }
+        if(levelX > 0 && levelY > 0) // both x and y nodes are found
+        {
+            if(levelX == levelY && parValX != parValY)
+                areCousin = true;
+            return;
+        } 
+        dfs(curr->left, curr->val, level + 1, x, y);
+        dfs(curr->right, curr->val, level + 1, x, y);
+    }
+
+    bool isCousins(TreeNode* root, int x, int y) {
+        dfs(root, -1, 0, x, y); 
+        return areCousin;
     }
 };
+// root has no parent val so -1 is used
+// start the level at 0
