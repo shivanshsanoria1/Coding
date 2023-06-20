@@ -1,7 +1,7 @@
 class Solution {
 public:
-    bool solve(unordered_set<string>& dict, vector<int>& dp, string& s, int i){
-        if(i == s.length())
+    bool solve(vector<string>& dict, vector<int>& dp, string& s, int i){
+        if(i == s.length()) // reached the end of original string 's'
             return true;
         if(dp[i] != -1) // solution already exists in dp
             return dp[i];
@@ -18,8 +18,7 @@ public:
     }
 
     bool wordBreak(string s, vector<string>& wordDict) { // Memoization
-        unordered_set<string> dict(wordDict.begin(), wordDict.end());
         vector<int> dp(s.length(), -1);
-        return solve(dict, dp, s, 0);
+        return solve(wordDict, dp, s, 0);
     }
 };
