@@ -1,23 +1,21 @@
 class Solution {
 public:
-    vector<vector<int>> res;
-    int n;
-    vector<vector<int>> subsets(vector<int>& nums) {
-        n=nums.size();
-        vector<int> subset;
-        solve(nums,0,subset);
-        return res;
-    }
-    
-    void solve(vector<int>& nums, int i, vector<int> subset)
-    {
-        if(i==n)
+    void solve(vector<int>& nums, vector<vector<int>>& subsets, vector<int>& subset, int i){
+        if(i == nums.size())
         {
-            res.push_back(subset);
+            subsets.push_back(subset);
             return;
         }
-        solve(nums,i+1,subset); // not including nums[i] in subset
+        solve(nums, subsets, subset, i+1); // excluding element at index i
         subset.push_back(nums[i]);
-        solve(nums,i+1,subset); // including nums[i] in subset
+        solve(nums, subsets, subset, i+1); // including element at index i
+        subset.pop_back();
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) { // Backtracking
+        vector<vector<int>> subsets;
+        vector<int> subset;
+        solve(nums, subsets, subset, 0);
+        return subsets;
     }
 };
