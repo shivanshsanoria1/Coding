@@ -2,7 +2,7 @@ class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) { // DP, T.C.=O(n^2), S.C.=O(n)
         int n=nums.size();
-        // stores the longest increasing subarray starting from ith index
+        // stores the length of LIS starting from ith index
         vector<int> lis(n, 1); 
         int ans = lis[n-1];
         for(int i=n-2; i>=0; i--)
