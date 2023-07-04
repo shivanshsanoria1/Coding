@@ -1,10 +1,8 @@
 class Solution {
 public:
-    int missingNumber(vector<int>& nums) {
+    int missingNumber(vector<int>& nums) { // T.C.=O(n), S.C.=O(1)
         int n=nums.size();
-        int sum=0, sum_from_0_to_n=n*(n+1)/2;
-        for(int i=0; i<n; i++)
-            sum=sum+nums[i];
-        return (sum_from_0_to_n - sum);
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        return n*(n+1)/2 - sum;
     }
 };

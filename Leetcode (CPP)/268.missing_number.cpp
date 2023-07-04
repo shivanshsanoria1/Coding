@@ -1,14 +1,12 @@
 class Solution {
 public:
-    int missingNumber(vector<int>& nums) {
+    int missingNumber(vector<int>& nums) { // T.C.=O(n), S.C.=O(n)
         int n=nums.size();
-        int count[n+1];
+        vector<bool> visited(n+1, false);
+        for(int num: nums)
+            visited[num] = true;
         for(int i=0; i<n+1; i++)
-            count[i]=0;
-        for(int i=0; i<n; i++)
-            count[nums[i]]++;
-        for(int i=0; i<n+1; i++)
-            if(count[i]==0)
+            if(!visited[i])
                 return i;
         return -1;
     }

@@ -4,12 +4,12 @@ public:
         int ans = 0;
         for(int i=0; i<32; i++)
         {
-            unsigned mask = 1 << i;
+            unsigned int mask = 1 << i;
             int setBitCount = 0;
             for(int num: nums)
                 if(num & mask)
                     setBitCount++;
-            setBitCount = setBitCount % 3;
+            setBitCount %= 3;
             ans = ans | (setBitCount << i);
         }
         return ans;

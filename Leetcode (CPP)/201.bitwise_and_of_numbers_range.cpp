@@ -1,14 +1,15 @@
 class Solution {
 public:
     int rangeBitwiseAnd(int left, int right) {
-        int c=0;
-        while(left != right) //keep on right shifting left and right until they become equal
+        int count = 0;
+        // keep on right shifting left and right until they become equal
+        while(left != right) 
         {
-            left=left>>1;
-            right=right>>1;
-            c++;
+            left = left >> 1;
+            right = right >> 1;
+            count++;
         }
-        //now left==right
-        return left<<c;
+        // now left == right
+        return left << count;
     }
 };
