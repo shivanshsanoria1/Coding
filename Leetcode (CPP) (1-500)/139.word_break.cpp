@@ -5,7 +5,7 @@ public:
             return true;
         if(dp[i] != -1) // solution already exists in dp
             return dp[i];
-        for(string word: dict)
+        for(string& word: dict)
             // check if the substring starting at index i and of the same length as 'word' matches with 'word'
             // if yes, move to the next recursive call starting at index i + word.length()
             if(s.substr(i, word.length()) == word && solve(dict, dp, s, i + word.length()))
