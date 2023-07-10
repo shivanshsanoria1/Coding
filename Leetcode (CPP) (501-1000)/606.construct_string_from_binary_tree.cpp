@@ -11,27 +11,23 @@
  */
 class Solution {
 public:
-    void preorder(TreeNode* root, string& ans)
-    {
-        if(root==NULL)
-            return;
-        ans+=to_string(root->val); //add value of node to string
-        if(root->left==NULL && root->right==NULL) //leaf node
-            return;
-        ans+='('; //add () to left subtree
-        preorder(root->left,ans);
-        ans+=')';
-        if(root->right!=NULL) //add () to right subtree only if right child exists
-        {
-            ans+='(';
-            preorder(root->right,ans);
-            ans+=')';
-        }
+    string dfs(TreeNode* curr){
+        string str = "";
+        str += to_string(curr->val);
+
+        if(curr->left != NULL)
+            str += '(' + dfs(curr->left) + ')';
+        // left child does not exist but right child does
+        else if(curr->right != NULL) 
+            str += "()";
+
+        if(curr->right != NULL)
+            str += '(' + dfs(curr->right) + ')';
+
+        return str;
     }
-    
+
     string tree2str(TreeNode* root) {
-        string ans="";
-        preorder(root,ans);
-        return ans;
+        return dfs(root);
     }
 };

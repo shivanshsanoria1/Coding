@@ -11,24 +11,22 @@
  */
 class Solution {
 public:
-    int ans;
-    int max_level=INT_MIN;
-    
-    void inorder(TreeNode* curr, int level) //Left-Root-Right
-    {
-        if(curr==NULL)
+    void dfs(TreeNode* curr, int level, int& maxLevel, int& ans){
+        if(curr == NULL)
             return;
-        inorder(curr->left,level+1);
-        if(level > max_level) //new max level found
+        dfs(curr->left, level + 1, maxLevel, ans);
+        dfs(curr->right, level + 1, maxLevel, ans);
+        if(level > maxLevel) // new max level found
         {
-            ans=curr->val; //leftmost value in the new found level
-            max_level=level; //update max level
+            maxLevel = level; // update the max level
+            ans = curr->val; // leftmost value in the new found level
         }
-        inorder(curr->right,level+1);
     }
     
-    int findBottomLeftValue(TreeNode* root) { //DFS
-        inorder(root,0);
+    int findBottomLeftValue(TreeNode* root) { // DFS
+        int ans = -1;
+        int maxLevel = INT_MIN;
+        dfs(root, 0, maxLevel, ans);
         return ans;
     }
 };

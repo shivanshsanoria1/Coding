@@ -11,20 +11,28 @@
  */
 class Solution {
 public:
-    int solve(TreeNode* curr)
-    {
-        if(curr==NULL)
+    int minDepth(TreeNode* root) { // BFS
+        if(root == NULL)
             return 0;
-        int left_height = solve(curr->left);
-        int right_height = solve(curr->right);
-        if(left_height==0) //no left subtree
-            return 1 + right_height;
-        if(right_height==0) //no right subtree
-            return 1 + left_height;
-        return 1 + min(left_height,right_height);
-    }
-    
-    int minDepth(TreeNode* root) {
-        return solve(root);
+        queue<TreeNode*> q;
+        q.push(root);
+        int level = 0;
+        while(!q.empty())
+        {
+            level++;
+            int size = q.size();
+            while(size--)
+            {
+                TreeNode* curr = q.front();
+                q.pop();
+                if(curr->left == NULL && curr->right == NULL) // leaf node
+                    return level;
+                if(curr->left != NULL)
+                    q.push(curr->left);
+                if(curr->right != NULL)
+                    q.push(curr->right);
+            }
+        }
+        return level;
     }
 };

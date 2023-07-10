@@ -1,23 +1,18 @@
 class Solution {
 public:
-    int majorityElement(vector<int>& nums) { // MOORE'S VOTING algo.
-        int n=nums.size();
-        int c=1; // count
-        int majority=nums[0]; // assume first element as majority element
-        for(int i=1; i<n; i++)
-        {
-            if(nums[i]==majority) // current element = majority element
-                c++;
-            else // current element != majority element
-            {
-                c--;
-                if(c==0) // if count=0
-                {
-                    majority=nums[i]; // set current element as majority element
-                    c++;
-                }
-            }
-        }
-        return majority;
+    int majorityElement(vector<int>& nums) { // T.C.=O(n*logn), S.C.=O(1)
+        sort(nums.begin(), nums.end());
+        return nums[nums.size() / 2];
     }
 };
+/*
+Example (when array is sorted)
+# for odd length array let n = 5, majority element min freq = 5/2 + 1 = 3
+  indexes = 0 1 2 3 4
+  majority element can be in index range [0,2], [1,3], [2,5]
+  common index = 2, ie, n/2
+# for even length array let n = 6, majority element min freq = 6/2 + 1 = 4
+  indexes = 0 1 2 3 4 5
+  majority element can be in index range [0,3], [1,4], [2,5]
+  common index = 3, ie, n/2
+*/

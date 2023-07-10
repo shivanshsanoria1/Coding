@@ -11,27 +11,26 @@
  */
 class Solution {
 public:
-    int findBottomLeftValue(TreeNode* root) {
-        int ans;
-        TreeNode* curr;
+    int findBottomLeftValue(TreeNode* root) { // BFS
+        int ans = -1;
         queue<TreeNode*> q;
         q.push(root);
         while(!q.empty())
         {
-            int size= q.size();
+            int size = q.size();
             for(int i=1; i<=size; i++)
             {
-                curr=q.front();
-                if(i==1) //first node of the level
-                    ans=curr->val;
+                TreeNode* curr = q.front();
                 q.pop();
-                if(curr->left!=NULL)
+                if(i == 1) // 1st node of the level
+                    ans = curr->val;
+                if(curr->left != NULL)
                     q.push(curr->left);
-                if(curr->right!=NULL)
+                if(curr->right != NULL)
                     q.push(curr->right);
             }
         }
         return ans;
     }
 };
-// do a level order traversal and find the first node in each level
+// do a level order traversal and find the 1st node in each level

@@ -11,19 +11,19 @@
  */
 class Solution {
 public:
-    int solve(TreeNode* curr)
-    {
-        if(curr==NULL)
+    int dfs(TreeNode* curr){
+        if(curr == NULL)
             return 0;
-        int left_height = solve(curr->left);
-        int right_height = solve(curr->right);
-        int ret = min(left_height,right_height);
-        if(ret == 0)
-            ret = max(left_height,right_height);
-        return 1 + ret;
+        int leftHeight = dfs(curr->left);
+        int rightHeight = dfs(curr->right);
+        if(leftHeight == 0) // no left subtree
+            return 1 + rightHeight;
+        if(rightHeight == 0) // no right subtree
+            return 1 + leftHeight;
+        return 1 + min(leftHeight, rightHeight);
     }
     
-    int minDepth(TreeNode* root) {
-        return solve(root);
+    int minDepth(TreeNode* root) { // DFS
+        return dfs(root);
     }
 };
