@@ -9,70 +9,65 @@
  */
 class Solution {
 public:
-    void bfs(TreeNode* root, unordered_map<TreeNode*,TreeNode*>& mp)
-    {
-        TreeNode *curr;
+    void buildParentMap(unordered_map<int, TreeNode*>& parent, TreeNode* root){ // BFS
         queue<TreeNode*> q;
         q.push(root);
         while(!q.empty())
         {
-            int size= q.size();
+            int size = q.size();
             while(size--)
             {
-                curr= q.front();
+                TreeNode* curr = q.front();
                 q.pop();
                 if(curr->left != NULL)
                 {
                     q.push(curr->left);
-                    mp[curr->left]=curr;
+                    parent[curr->left->val] = curr;
                 }
                 if(curr->right != NULL)
                 {
                     q.push(curr->right);
-                    mp[curr->right]=curr;
+                    parent[curr->right->val] = curr;
                 }
             }
         }
     }
     
-    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        //step-1
-        unordered_map<TreeNode*,TreeNode*> mp; //child node -> parent node
-        bfs(root,mp);
-        //step-2
-        unordered_map<TreeNode*,bool> visited;
+    vector<int> bfs(unordered_map<int, TreeNode*>& parent, TreeNode* target, int k){
         queue<TreeNode*> q;
+        unordered_set<int> visited;
+        visited.insert(target->val); // mark the target as visited
         q.push(target);
-        visited[target]=true; //mark the target as visited
-        int dist=0;
-        while(!q.empty())
+        int dist = 0;
+        while(!q.empty() && dist < k)
         {
-            int size= q.size();
-            if(dist == k)
-                break;
-            dist++;
+            int size = q.size();
             while(size--)
             {
                 TreeNode* curr = q.front();
                 q.pop();
-                if(curr->left!=NULL && visited[curr->left]==false) //if left child exists and is not visited
+                // left child exists and is unvisited
+                if(curr->left != NULL && visited.find(curr->left->val) == visited.end()) 
                 {
+                    visited.insert(curr->left->val); // mark the left child as visited
                     q.push(curr->left);
-                    visited[curr->left]=true; //mark the left child as visited
                 }
-                if(curr->right!=NULL && visited[curr->right]==false) //if right child exists and is not visited
+                // right child exists and is unvisited
+                if(curr->right != NULL && visited.find(curr->right->val) == visited.end()) 
                 {
+                    visited.insert(curr->right->val); // mark the right child as visited
                     q.push(curr->right);
-                    visited[curr->right]=true; //mark the right child as visited
                 }
-                if(mp[curr] && visited[mp[curr]]==false) //if parent exists and is not visited
+                // parent exists and is unvisited
+                if(parent[curr->val] && visited.find(parent[curr->val]->val) == visited.end()) 
                 {
-                    q.push(mp[curr]);
-                    visited[mp[curr]]=true; //mark the parent as visited
+                    visited.insert(parent[curr->val]->val); // mark the parent as visited
+                    q.push(parent[curr->val]);
                 }
             }
+            dist++;
         }
-        //step-3
+        
         vector<int> ans;
         while(!q.empty())
         {
@@ -82,4 +77,11 @@ public:
         }
         return ans;
     }
+
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<int, TreeNode*> parent; // child node val -> parent node
+        buildParentMap(parent, root);
+        return bfs(parent, target, k);
+    }
 };
+// all the node values in tree are distinct

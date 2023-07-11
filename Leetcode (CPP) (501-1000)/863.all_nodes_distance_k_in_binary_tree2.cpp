@@ -9,55 +9,71 @@
  */
 class Solution {
 public:
-    void buildGraph(TreeNode* root, unordered_map<int,vector<int>>& graph) //builds an undirected acyclic graph
-    {
-        if(root->left!=NULL)
+    void buildParentMap(unordered_map<int, TreeNode*>& parent, TreeNode* curr){ // DFS
+        if(curr->left != NULL)
         {
-            graph[root->val].push_back(root->left->val);
-            graph[root->left->val].push_back(root->val);
-            buildGraph(root->left,graph);
+            parent[curr->left->val] = curr;
+            buildParentMap(parent, curr->left);
         }
-        if(root->right!=NULL)
+        if(curr->right != NULL)
         {
-            graph[root->val].push_back(root->right->val);
-            graph[root->right->val].push_back(root->val);
-            buildGraph(root->right,graph);
+            parent[curr->right->val] = curr;
+            buildParentMap(parent, curr->right);
         }
     }
     
-    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        //step-1
-        unordered_map<int,vector<int>> graph; //node -> connected nodes
-        buildGraph(root,graph);
-        //step-2
-        unordered_map<int,bool> visited;
-        queue<int> q;
-        q.push(target->val);
-        int dist=0;
-        while(!q.empty())
+    vector<int> bfs(unordered_map<int, TreeNode*>& parent, TreeNode* target, int k){
+        queue<TreeNode*> q;
+        unordered_set<int> visited;
+        visited.insert(target->val); // mark the target as visited
+        q.push(target);
+        int dist = 0;
+        while(!q.empty() && dist < k)
         {
-            int size= q.size();
-            if(dist == k)
-                break;
-            dist++;
+            int size = q.size();
             while(size--)
             {
-                int curr= q.front();
+                TreeNode* curr = q.front();
                 q.pop();
-                visited[curr]=true; //mark curr as visited
-                for(int node: graph[curr]) //check the nodes connected to the curr node
-                    if(visited[node]==false) //only push the unvisited nodes in queue
-                        q.push(node);
+                // left child exists and is unvisited
+                if(curr->left != NULL && visited.find(curr->left->val) == visited.end()) 
+                {
+                    visited.insert(curr->left->val); // mark the left child as visited
+                    q.push(curr->left);
+                }
+                // right child exists and is unvisited
+                if(curr->right != NULL && visited.find(curr->right->val) == visited.end()) 
+                {
+                    visited.insert(curr->right->val); // mark the right child as visited
+                    q.push(curr->right);
+                }
+                // parent exists and is unvisited
+                if(parent[curr->val] && visited.find(parent[curr->val]->val) == visited.end()) 
+                {
+                    visited.insert(parent[curr->val]->val); // mark the parent as visited
+                    q.push(parent[curr->val]);
+                }
             }
+            dist++;
         }
-        //step-3
+
         vector<int> ans;
         while(!q.empty())
         {
-            int curr= q.front();
+            TreeNode* curr = q.front();
             q.pop();
-            ans.push_back(curr);
+            ans.push_back(curr->val);
         }
         return ans;
     }
+
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<int, TreeNode*> parent; // child node val -> parent node
+        buildParentMap(parent, root);
+        return bfs(parent, target, k);
+    }
 };
+/*
+# all the node values in tree are distinct
+# root node does not have any parent node so its not included in 'parent' map
+*/
