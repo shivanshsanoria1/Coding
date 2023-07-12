@@ -20,7 +20,8 @@ public:
         }
         // unmark the curr vertex from path visited
         pathVisited[curr] = false;
-        return false; // cycle not found
+        // cycle not found
+        return false; 
     }
 
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
@@ -33,7 +34,7 @@ public:
         vector<bool> inCycle(n, false);
 
         for(int i=0; i<n; i++)
-            if(visited[i] == 0)
+            if(!visited[i]) // check for unvisited vertices
                 isCyclic(graph, visited, pathVisited, inCycle, i);
 
         vector<int> ans;
