@@ -1,8 +1,7 @@
 class Solution {
 public:
-    // return true if s1 and s2 needs to be swapped
-    bool compare(string& s1, string& s2) {
-        return s1 + s2 >= s2 + s1 ? false : true;
+    static bool cmp(string& s1, string& s2) {
+        return s1 + s2 >= s2 + s1;
     }
 
     string largestNumber(vector<int>& nums) {
@@ -14,14 +13,10 @@ public:
                 zeros++;
             strNums.push_back(to_string(num));
         }
-        int n=nums.size();
         // the case where all elements in array are 0
-        if(zeros == n) 
+        if(zeros == nums.size()) 
             return "0";
-        for(int i=0; i<n-1; i++)
-            for(int j=i+1; j<n; j++)
-                if(compare(strNums[i], strNums[j]))
-                    swap(strNums[i], strNums[j]);
+        sort(strNums.begin(), strNums.end(), cmp);
         string ans = "";
         for(string& str: strNums)
             ans += str;
