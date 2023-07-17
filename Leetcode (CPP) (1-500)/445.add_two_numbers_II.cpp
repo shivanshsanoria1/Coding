@@ -10,78 +10,63 @@
  */
 class Solution {
 public:
+    ListNode *reverseLL(ListNode *head){
+        ListNode *prev=NULL, *curr=head, *temp=NULL;
+        while(curr != NULL)
+        {
+            temp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return prev;
+    }
+    
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode *curr=l1;
-        string s1="", s2="", s="";
-        while(curr != NULL) //add digits from LL1 into string s1
+        l1 = reverseLL(l1); //reverse LL1
+        l2 = reverseLL(l2); //reverse LL2
+        ListNode *curr1=l1, *curr2=l2;
+        ListNode *dummy = new ListNode(-1); // 1st node of the final LL
+        ListNode *curr = dummy;
+        int carry = 0;
+        while(curr1 != NULL && curr2 != NULL)
         {
-            s1 += to_string(curr->val);
-            curr= curr->next;
+            int sum = curr1->val + curr2->val + carry;
+            carry = sum / 10;
+            sum = sum % 10;
+            curr->next = new ListNode(sum);
+            curr = curr->next;
+            curr1 = curr1->next;
+            curr2 = curr2->next;
         }
-        curr=l2;
-        while(curr != NULL) //add digits from LL2 into string s2
+        while(curr1 != NULL) // LL1 has more elements remaining
         {
-            s2 += to_string(curr->val);
-            curr= curr->next;
+            int sum = curr1->val + carry;
+            carry = sum / 10;
+            sum = sum % 10;
+            curr->next = new ListNode(sum);
+            curr = curr->next;
+            curr1 = curr1->next;
         }
-        reverse(s1.begin(),s1.end()); //reverse string s1
-        reverse(s2.begin(),s2.end()); //reverse string s2
-        int n1=s1.length(), n2=s2.length(), i=0, carry=0;
-        while(i<n1 && i<n2) //until any one of the strings is finished
+        while(curr2 != NULL) // LL2 has more elements remaining
         {
-            int a=s1[i]-'0', b=s2[i]-'0';
-            if(a+b+carry > 9)
-            {
-                s += to_string(a+b+carry-10);
-                carry=1;
-            }
-            else
-            {
-                s += to_string(a+b+carry);
-                carry=0;
-            }
-            i++;
+            int sum = curr2->val + carry;
+            carry = sum / 10;
+            sum = sum % 10;
+            curr->next = new ListNode(sum);
+            curr = curr->next;
+            curr2 = curr2->next;
         }
-        while(i<n1) //if string s1 is left
+        if(carry == 1) // final carry is generated from MSB
         {
-            int a=s1[i]-'0';
-            if(a+carry > 9)
-            {
-                s += to_string(a+carry-10);
-                carry=1;
-            }
-            else
-            {
-                s += to_string(a+carry);
-                carry=0;
-            }
-            i++;
+            curr->next = new ListNode(1);
+            curr = curr->next;
         }
-        while(i<n2) //if string s2 is left
-        {
-            int b=s2[i]-'0';
-            if(b+carry > 9)
-            {
-                s += to_string(b+carry-10);
-                carry=1;
-            }
-            else
-            {
-                s += to_string(b+carry);
-                carry=0;
-            }
-            i++;
-        }
-        if(carry == 1) //carry is generated from MSB
-            s += '1';
-        int n=s.length();
-        ListNode *ans= new ListNode(s[n-1]-'0'); //add last element of string s
-        curr= ans;
-        for(int i=n-2; i>=0; i--) //add elements of string s (in reverse order) into ans LL
-        {
-            curr->next= new ListNode(s[i]-'0');
-            curr= curr->next;
-        }
-        return ans;
+        ListNode* head = dummy->next; // head of final LL
+        delete dummy; // delete the dummy node
+        head = reverseLL(head); // reverse final LL
+        return head;
     }
 };
+// numbers in LL1 and LL2 are given in MSB to LSB
+// similar to Leetcode 2: add two numbers and Leetcode 206: reverse linked list

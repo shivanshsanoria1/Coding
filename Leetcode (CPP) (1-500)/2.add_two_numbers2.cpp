@@ -15,33 +15,20 @@ public:
         ListNode *dummy = new ListNode(-1); // 1st node of the final LL
         ListNode *curr = dummy;
         int carry = 0;
-        while(curr1 != NULL && curr2 != NULL)
+        // run until both LLs becomes empty
+        while(curr1 != NULL || curr2 != NULL)
         {
-            int sum = curr1->val + curr2->val + carry;
+            int val1 = curr1 != NULL ? curr1->val : 0;
+            int val2 = curr2 != NULL ? curr2->val : 0;
+            int sum = val1 + val2 + carry;
             carry = sum / 10;
             sum = sum % 10;
             curr->next = new ListNode(sum);
             curr = curr->next;
-            curr1 = curr1->next;
-            curr2 = curr2->next;
-        }
-        while(curr1 != NULL) // LL1 has more elements remaining
-        {
-            int sum = curr1->val + carry;
-            carry = sum / 10;
-            sum = sum % 10;
-            curr->next = new ListNode(sum);
-            curr = curr->next;
-            curr1 = curr1->next;
-        }
-        while(curr2 != NULL) // LL2 has more elements remaining
-        {
-            int sum = curr2->val + carry;
-            carry = sum / 10;
-            sum = sum % 10;
-            curr->next = new ListNode(sum);
-            curr = curr->next;
-            curr2 = curr2->next;
+            if(curr1 != NULL)
+                curr1 = curr1->next;
+            if(curr2 != NULL)
+                curr2 = curr2->next;
         }
         if(carry == 1) // final carry is generated from MSB
         {
