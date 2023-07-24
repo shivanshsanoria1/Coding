@@ -4,7 +4,7 @@ typedef pair<int, int> PI; // {b, wt}
 typedef pair<pair<int, int>, int> PPI; // {{a, b}, wt}
 typedef pair<int, pair<int, int>> PIP; // {wt, {b, a}}
 
-vector<PPI> calculatePrimsMST(int V, int E, vector<PPI> &edges) // T.C.=O(E*logE)
+vector<PPI> calculatePrimsMST(int V, int E, vector<PPI> &edges) 
 {
     // Write your code here.
     vector<vector<PI>> graph(V + 1);
@@ -36,15 +36,14 @@ vector<PPI> calculatePrimsMST(int V, int E, vector<PPI> &edges) // T.C.=O(E*logE
         {
             int nei = it.first;
             int wt = it.second;
+            if(visited[nei])
+                continue;
             pq.push({wt, {nei, curr}});
         }
     }
     return mst;
 }
-
-/*
-# T.C.=O(E*logV)
-# vertices from 1 to V
-# vertex 1 has no parent (ie, -1) and so also no edge wt from -1 to 1 (ie, 0)
-# mark the curr vertex as visited before adding it to the MST 
-*/
+// T.C.=O(E*logE), S.C.=O(E)
+// vertices from 1 to V
+// vertex 1 has no parent (ie, -1) and so also no edge wt from -1 to 1 (ie, 0)
+// mark the curr vertex as visited before adding it to the MST 
