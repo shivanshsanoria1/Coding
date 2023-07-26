@@ -1,6 +1,6 @@
 class Solution {
 private:
-    #define MOD (int)(1e9 + 7)
+    #define MOD int(1e9 + 7)
     #define INF LLONG_MAX
     typedef pair<long long int, int> PI;
     typedef long long int lli;
@@ -20,15 +20,17 @@ public:
         // initially 0 ways to reach every vertex
         vector<int> ways(n, 0);
         ways[0] = 1; // 1 way to reach source vertex
+
         // initially infinity distance to reach every vertex
         vector<lli> dist(n, INF);
         dist[0] = 0; // 0 distance to reach source vertex
 
         priority_queue<PI, vector<PI>, greater<PI>> pq; // min-heap, {dist, vertex}
         pq.push({dist[0], 0}); // push source vertex distance and source vertex in heap
+
         while(!pq.empty())
         {
-            // {dist to each curr vertex, curr vertex}
+            // {dist to curr vertex, curr vertex}
             auto [currDist, curr] = pq.top();
             pq.pop();
             // neighbours of curr and edge weight wt between them
@@ -38,8 +40,8 @@ public:
                 if(currDist + wt < dist[nei])
                 {
                     dist[nei] = currDist + wt;
-                    pq.push({dist[nei], nei});
                     ways[nei] = ways[curr];
+                    pq.push({dist[nei], nei});
                 }
                 // another min-dist found to reach neighbouring vertex
                 else if(currDist + wt == dist[nei])
