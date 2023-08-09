@@ -1,24 +1,29 @@
 class Solution {
 public:
-    void solve(vector<int>& nums, int left, int right, vector<vector<int>>& ans)
-    {
-        if(left == right)
+    void solve(vector<int>& nums, vector<vector<int>>& perms, vector<int>& perm, vector<bool>& visited){
+        if(perm.size() == nums.size())
         {
-            ans.push_back(nums);
+            perms.push_back(perm);
             return;
         }
-        for(int i=left; i<=right; i++)
+        for(int i=0; i<nums.size(); i++)
         {
-            swap(nums[left],nums[i]);
-            solve(nums,left+1,right,ans);
-            swap(nums[left],nums[i]);
+            if(visited[i])
+                continue;
+            visited[i] = true;
+            perm.push_back(nums[i]);
+            solve(nums, perms, perm, visited);
+            visited[i] = false;
+            perm.pop_back();
         }
     }
-    
-    vector<vector<int>> permute(vector<int>& nums) {
-        vector<vector<int>> ans;
+
+    vector<vector<int>> permute(vector<int>& nums) { // Backtracking, T.C.=O(n*n!), S.C.=O(n)
         int n=nums.size();
-        solve(nums,0,n-1,ans); //initially left=0, right= n-1
-        return ans;
+        vector<vector<int>> perms;
+        vector<int> perm;
+        vector<bool> visited(n, false);
+        solve(nums, perms, perm, visited);
+        return perms;
     }
 };
