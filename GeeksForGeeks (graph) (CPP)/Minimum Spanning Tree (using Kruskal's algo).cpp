@@ -18,13 +18,13 @@ public:
         return parent[curr];
     }
     
-    void unionBySize(int a, int b) 
+    bool unionBySize(int a, int b) 
     {
         //code here
         int ultPar_a = findUltParent(a);
         int ultPar_b = findUltParent(b);
         if(ultPar_a == ultPar_b)
-            return;
+            return false;
         if(size[ultPar_a] <= size[ultPar_b])
         {
             parent[ultPar_a] = ultPar_b;
@@ -35,6 +35,7 @@ public:
             parent[ultPar_b] = ultPar_a;
             size[ultPar_a] += size[ultPar_b];
         }
+        return true;
     }
 };
 
@@ -67,9 +68,8 @@ public:
             int wt = edge.first;
             int a = edge.second.first;
             int b = edge.second.second;
-            if(ds.findUltParent(a) == ds.findUltParent(b))
+            if(ds.unionBySize(a, b) == false)
                 continue;
-            ds.unionBySize(a, b);
             sumMST += wt;
         }
         

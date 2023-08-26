@@ -2,15 +2,15 @@ class DisjointSet
 {
 private:
     vector<int> parent, size;
-    
+
 public:
-    DisjointSet(int V){
-        parent.resize(V);
-        size.resize(V, 1);
-        for(int i=0; i<V; i++)
+    DisjointSet(int V){ // 1 based indexing
+        parent.resize(V+1);
+        size.resize(V+1, 1);
+        for(int i=0; i<=V; i++)
             parent[i] = i;
     }
-    
+
     int findUltParent(int curr){ // find ultimate parent
         if(curr == parent[curr])
             return curr;
@@ -39,22 +39,20 @@ public:
     }
 };
 
-class Solution
-{
+class Solution {
 public:
-    //Function to detect cycle using DSU in an undirected graph.
-    int detectCycle(int V, vector<int>adj[])
-    {
-        // Code here
-        DisjointSet ds = DisjointSet(V);
-        for(int a=0; a<V; a++)
-            for(int b: adj[a])
-            {
-                if(a >= b) // skip the double edges
-                    continue;
-                if(ds.unionBySize(a, b) == false)
-                    return 1;
-            }
-        return 0;
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) { // T.C.=O(n), S.C.=O(n)
+        int n = edges.size();
+        DisjointSet ds = DisjointSet(n);
+        for(auto edge: edges)
+        {
+            int a = edge[0];
+            int b = edge[1];
+            // a and b are already in the same component
+            // so the edge a--b is redundant
+            if(ds.unionBySize(a, b) == false)
+                return {a, b};
+        }
+        return {};
     }
 };
