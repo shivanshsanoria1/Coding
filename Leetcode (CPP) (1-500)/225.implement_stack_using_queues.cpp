@@ -7,23 +7,24 @@ public:
         
     }
     
-    void push(int x) { //T.C.=O(n)
-        q.push(x); //push curr element in queue
-        int n= q.size();
-        for(int i=1; i<n; i++) //pop (n-1) elements from the front and push them into the rear of the queue
+    void push(int x) { // T.C.=O(n)
+        q.push(x); // push curr element in queue
+        int n = q.size();
+        // pop (n-1) elements from the front and push them into the rear of the queue
+        for(int i=1; i<n; i++) 
         {
             q.push(q.front());
             q.pop();
         }
     }
     
-    int pop() { //T.C.=O(1)
-        int popped= q.front();
+    int pop() { // T.C.=O(1)
+        int popped = q.front();
         q.pop();
         return popped;
     }
     
-    int top() { //T.C.=O(1)
+    int top() { // T.C.=O(1)
         return q.front();
     }
     
