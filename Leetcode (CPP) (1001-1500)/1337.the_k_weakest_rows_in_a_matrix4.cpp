@@ -1,7 +1,13 @@
 class Solution {
+private:
+    typedef pair<int, int> PI;
+
+    static bool cmp(PI &a, PI &b){
+        return a.first == b.first ? a.second < b.second : a.first < b.first;
+    }
+
 public:
-    int calculateOnes(vector<int>& arr) // using binary search
-    {
+    int calculateOnes(vector<int>& arr){ // using binary search
         int left = 0, right = arr.size()-1;
         while(left <= right)
         {
@@ -16,18 +22,12 @@ public:
 
     vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
         vector<int> ans;
-        int m = mat.size();
-        vector<pair<int, int>> vec;
-        for(int i=0; i<m; i++)
+        vector<PI> vec;
+        for(int i=0; i<mat.size(); i++)
             vec.push_back({calculateOnes(mat[i]), i});
-        stable_sort(vec.begin(), vec.end());
+        sort(vec.begin(), vec.end(), cmp);
         for(int i=0; i<k; i++)
             ans.push_back(vec[i].second);
         return ans;
     }
 };
-/*
-# stable_sort() keeps the relative order of duplicate values
-# here there is no need to use cmp() with stable_sort() as it sorts by the 'first' key in pair
-# and we are pushihg the 'second' key of the pair in increasing order in the initial vector
-*/

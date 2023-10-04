@@ -1,18 +1,16 @@
 class Solution {
 public:
     vector<int> sortArrayByParity(vector<int>& nums) { // T.C.=O(n) , S.C.=O(1)
-        int n=nums.size(), start=0, end=n-1, temp;
-        while(start<end)
+        int left = 0, right = nums.size()-1;
+        while(left < right)
         {
-            if(nums[start]%2!=0) // nums[start] is odd
+            if(nums[left] % 2 == 1) // odd
             {
-                temp=nums[start];
-                nums[start]=nums[end];
-                nums[end]=temp;
-                end--;
+                swap(nums[left], nums[right]);
+                right--;
             }
-            else // nums[start] is even
-                start++;
+            else // even
+                left++;
         }
         return nums;
     }

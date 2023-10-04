@@ -15,19 +15,17 @@ public:
 
     vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
         vector<int> ans;
-        priority_queue<pair<int, int>> pq; // max-heap
+        vector<pair<int, int>> vec;
         for(int i=0; i<mat.size(); i++)
-        {
-            pq.push({calculateOnes(mat[i]), i});
-            if(pq.size() > k)
-                pq.pop();
-        }
-        while(k--)
-        {
-            ans.push_back(pq.top().second);
-            pq.pop();
-        }
-        reverse(ans.begin(), ans.end());
+            vec.push_back({calculateOnes(mat[i]), i});
+        stable_sort(vec.begin(), vec.end());
+        for(int i=0; i<k; i++)
+            ans.push_back(vec[i].second);
         return ans;
     }
 };
+/*
+# stable_sort() keeps the relative order of duplicate values
+# here there is no need to use cmp() with stable_sort() as it sorts by the 'first' key in pair
+# and we are pushihg the 'second' key of the pair in increasing order in the initial vector
+*/
