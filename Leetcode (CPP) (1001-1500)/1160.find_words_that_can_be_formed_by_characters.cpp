@@ -9,16 +9,16 @@ public:
         for(string& word: words)
         {
             vector<int> tempFreq(26, 0);
-            for(char ch: word)
-                tempFreq[ch - 'a']++;
-
             bool isGoodStr = true;
-            for(int i=0; i<26; i++)
-                if(tempFreq[i] > freq[i])
+            for(char ch: word)
+            {
+                tempFreq[ch - 'a']++;
+                if(tempFreq[ch - 'a'] > freq[ch - 'a'])
                 {
                     isGoodStr = false;
                     break;
                 }
+            }
             if(isGoodStr)
                 ans += word.length();
         }

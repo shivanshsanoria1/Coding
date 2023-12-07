@@ -13,9 +13,10 @@ public:
 };
 /*
 # it takes 1 sec to move in horizontal (1 unit dist), vertical (1 unit dist) or
-  diagonal (sqrt(2) unit dist) direction is the same
+  diagonal (sqrt(2) unit dist) direction
 # to move from point (x1,y1) to (x2,y2) in min time we should prefer to move digonally 
   for as far as possible and then move horizontal or verical
-# so path is- (x1,y1) --diagonally--> (xd,yd) --horizontal/verical--> (x2,y2)
+# so the optimal path is- 
+  (x1,y1) --diagonally--> (xd,yd) --horizontal/verical--> (x2,y2)
   where xd = x2 or yd = y2
 */

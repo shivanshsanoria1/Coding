@@ -1,12 +1,12 @@
 class Solution {
 public:
-    int hammingWeight(uint32_t n) { // bit manipulation
-        int c=0;
-        while(n)
+    int hammingWeight(uint32_t n) {
+        int count = 0;
+        while(n > 0)
         {
-            c=c+(n&1);
-            n=n>>1;
+            count += n % 2;
+            n /= 2;
         }
-        return c;
+        return count;
     }
 };
