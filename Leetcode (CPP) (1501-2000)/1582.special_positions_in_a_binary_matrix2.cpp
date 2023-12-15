@@ -1,31 +1,32 @@
 class Solution {
 public:
-    int numSpecial(vector<vector<int>>& mat) {
+    int numSpecial(vector<vector<int>>& mat) { // T.C.=O(m*n), S.C.=O(m+n)
         int m=mat.size(), n=mat[0].size();
-        vector<int> rows, cols; //stores row and col sums
-        for(int i=0; i<m; i++) //find row sum
+        vector<int> rowSums, colSums; // stores row and col sums
+        for(int i=0; i<m; i++) // find the row sums
         {
-            int row_sum=0;
+            int sum = 0;
             for(int j=0; j<n; j++)
-                row_sum+=mat[i][j];
-            rows.push_back(row_sum);
+                sum += mat[i][j];
+            rowSums.push_back(sum);
         }
-        for(int j=0; j<n; j++) //find col sum
+        for(int j=0; j<n; j++) // find the col sums
         {
-            int col_sum=0;
+            int sum = 0;
             for(int i=0; i<m; i++)
-                col_sum+=mat[i][j];
-            cols.push_back(col_sum);
+                sum += mat[i][j];
+            colSums.push_back(sum);
         }
-        int c=0;
+
+        int count = 0;
         for(int i=0; i<m; i++)
-            if(rows[i]==1)
+            if(rowSums[i] == 1)
                 for(int j=0; j<n; j++)
-                    if(mat[i][j]==1 && cols[j]==1)
+                    if(mat[i][j] == 1 && colSums[j] == 1)
                     {
-                        c++;
+                        count++;
                         break;
                     }
-        return c;
+        return count;
     }
 };

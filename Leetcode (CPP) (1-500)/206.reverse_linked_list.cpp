@@ -10,19 +10,20 @@
  */
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) { //S.C.=O(n)
-        ListNode* curr=head;
+    ListNode* reverseList(ListNode* head) { // S.C.=O(n)
+        ListNode* curr = head;
         vector<int> vec;
-        while(curr!=NULL)
+        while(curr != NULL)
         {
             vec.push_back(curr->val);
-            curr=curr->next;
+            curr = curr->next;
         }
-        curr=head;
+        
+        curr = head;
         for(int i=vec.size()-1; i>=0; i--)
         {
-            curr->val=vec[i];
-            curr=curr->next;
+            curr->val = vec[i];
+            curr = curr->next;
         }
         return head;
     }
