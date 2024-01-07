@@ -1,6 +1,7 @@
 class Solution {
 public:
-    int buyChoco(vector<int>& prices, int money) { // T.C.=O(n), S.C.=O(1)
+    // T.C.=O(n), S.C.=O(1)
+    int buyChoco(vector<int>& prices, int money) { 
         int min1 = INT_MAX, min2 = INT_MAX;
         for(int num: prices)
         {
