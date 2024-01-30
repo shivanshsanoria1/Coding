@@ -1,41 +1,53 @@
 class MyQueue {
 private:
-    stack<int> in; //acts as 'rear' of the queue for pushing the elements
-    stack<int> out; //acts as 'front' of the queue for popping the elements
+    stack<int> st1; // primary stack
+    stack<int> st2; // secondary stack
+    int front; // front element of the queue
 
 public:
     MyQueue() {
-        
+        front = -1;
     }
     
-    void push(int x) { //T.C.=O(1)
-        in.push(x);
+    // T.C.=O(1)
+    void push(int x) { 
+        // found the front of the queue
+        if(st1.empty())
+            front = x;
+        st1.push(x);
     }
     
-    int pop() { //T.C.=O(1)
-        if(out.empty()) //out stack is empty
-            while(!in.empty()) //empty the 'in' stack into the 'out' stack
-            {
-                out.push(in.top());
-                in.pop();
-            }
-        int popped=out.top();
-        out.pop();
+    // T.C.=O(n)
+    int pop() { 
+        // empty stack1 into stack2
+        while(!st1.empty()) 
+        {
+            st2.push(st1.top());
+            st1.pop();
+        }
+        // pop from stack2
+        int popped = st2.top();
+        st2.pop();
+        // update the new front of the queue
+        if(!st2.empty())
+            front = st2.top();
+        // empty stack2 into stack1
+        while(!st2.empty()) 
+        {
+            st1.push(st2.top());
+            st2.pop();
+        }
         return popped;
     }
     
-    int peek() { //T.C.=O(1)
-        if(out.empty()) //out stack is empty
-            while(!in.empty()) //empty the 'in' stack into the 'out' stack
-            {
-                out.push(in.top());
-                in.pop();
-            }
-        return out.top();
+    // T.C.=O(1)
+    int peek() { 
+        return front;
     }
     
+    // T.C.=O(1)
     bool empty() {
-        return out.empty() && in.empty();
+        return st1.empty();
     }
 };
 

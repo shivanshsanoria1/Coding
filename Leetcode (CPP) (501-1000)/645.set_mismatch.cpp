@@ -1,17 +1,20 @@
 class Solution {
 public:
-    vector<int> findErrorNums(vector<int>& nums) { //T.C.=O(nlogn) , S.C.=O(1)
+    // T.C.=O(n), S.C.=O(n)
+    vector<int> findErrorNums(vector<int>& nums) {
         vector<int> ans(2);
         int n=nums.size();
-        sort(nums.begin(),nums.end());
-        int sum=nums[0], sum_real=(n*(n+1))/2;
-        for(int i=1; i<n; i++)
+        vector<int> freq(n+1, 0);
+        int sum = 0;
+        int correctSum = (n*(n+1))/2;
+        for(int num: nums)
         {
-            if(nums[i]==nums[i-1]) //found duplicate
-                ans[0]=nums[i];
-            sum+=nums[i];
+            freq[num]++;
+            sum += num;
+            if(freq[num] == 2) // duplicate found
+                ans[0] = num;
         }
-        ans[1]=ans[0]+sum_real-sum;
+        ans[1] = correctSum - sum + ans[0];
         return ans;
     }
 };

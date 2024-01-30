@@ -1,26 +1,31 @@
 class MyQueue {
 private:
-    stack<int> st1; //primary stack
-    stack<int> st2; //secondary stack
+    stack<int> st1; // primary stack
+    stack<int> st2; // secondary stack
 
 public:
     MyQueue() {
         
     }
     
-    void push(int x) { //T.C.=O(1)
+    // T.C.=O(1)
+    void push(int x) { 
         st1.push(x);
     }
     
-    int pop() { //T.C.=O(n)
-        while(!st1.empty()) //empty stack1 into stack2
+    // T.C.=O(n)
+    int pop() { 
+        // empty stack1 into stack2
+        while(!st1.empty()) 
         {
             st2.push(st1.top());
             st1.pop();
         }
-        int popped=st2.top();
-        st2.pop(); //pop from stack2
-        while(!st2.empty()) //empty stack2 into stack1
+        // pop from stack2
+        int popped = st2.top();
+        st2.pop(); 
+        // empty stack2 into stack1
+        while(!st2.empty()) 
         {
             st1.push(st2.top());
             st2.pop();
@@ -28,14 +33,18 @@ public:
         return popped;
     }
     
-    int peek() { //T.C.=O(n)
-        while(!st1.empty()) //empty stack1 into stack2
+    // T.C.=O(n)
+    int peek() { 
+        // empty stack1 into stack2
+        while(!st1.empty()) 
         {
             st2.push(st1.top());
             st1.pop();
         }
-        int top=st2.top();
-        while(!st2.empty()) //empty stack2 into stack1
+        // find stack2 top
+        int top = st2.top();
+        // empty stack2 into stack1
+        while(!st2.empty()) 
         {
             st1.push(st2.top());
             st2.pop();
@@ -43,6 +52,7 @@ public:
         return top;
     }
     
+    // T.C.=O(1)
     bool empty() {
         return st1.empty();
     }

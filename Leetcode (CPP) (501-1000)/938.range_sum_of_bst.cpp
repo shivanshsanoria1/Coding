@@ -10,9 +10,8 @@
  * };
  */
 class Solution {
-public:
-    void inorder(TreeNode *curr, int low, int high, int &sum)
-    {
+private:
+    void inorder(TreeNode *curr, int low, int high, int& sum){
         if(curr == NULL)
             return;
         if(curr->val > low)
@@ -23,8 +22,9 @@ public:
             inorder(curr->right, low, high, sum);
     }
 
+public:
     int rangeSumBST(TreeNode* root, int low, int high) {
-        int sum= 0;
+        int sum = 0;
         inorder(root, low, high, sum);
         return sum;
     }

@@ -1,19 +1,21 @@
 class Solution {
 public:
-    vector<int> findErrorNums(vector<int>& nums) { //T.C.=O(n) , S.C.=O(n)
+    // T.C.=O(n), S.C.=O(n)
+    vector<int> findErrorNums(vector<int>& nums) {
         vector<int> ans(2);
         int n=nums.size();
-        unordered_map<int,bool> mp;
-        int sum=0, sum_real=(n*(n+1))/2;
-        for(int i=0; i<n; i++)
+        vector<bool> visited(n+1, false);
+        int sum = 0;
+        int correctSum = (n*(n+1))/2;
+        for(int num: nums)
         {
-            if(mp.find(nums[i]) != mp.end()) //nums[i] present in map
-                ans[0]=nums[i]; //found duplicate
-            else
-                mp[nums[i]]=true;
-            sum+=nums[i];
+            if(!visited[num])
+                visited[num] = true;
+            else // duplicate found
+                ans[0] = num;
+            sum += num;
         }
-        ans[1]=ans[0]+sum_real-sum;
+        ans[1] = correctSum - sum + ans[0];
         return ans;
     }
 };

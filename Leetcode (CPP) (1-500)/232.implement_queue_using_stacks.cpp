@@ -1,37 +1,44 @@
 class MyQueue {
 private:
-    stack<int> st1; //primary stack
-    stack<int> st2; //secondary stack
+    stack<int> st1; // primary stack
+    stack<int> st2; // secondary stack
 
 public:
     MyQueue() {
         
     }
     
-    void push(int x) { //T.C.=O(n)
-        while(!st1.empty()) //empty stack1 into stack2
+    // T.C.=O(n)
+    void push(int x) { 
+        // empty stack1 into stack2
+        while(!st1.empty()) 
         {
             st2.push(st1.top());
             st1.pop();
         }
-        st2.push(x); //push curr into stack2
-        while(!st2.empty()) //empty stack2 into stack1
+        // push curr into stack2
+        st2.push(x); 
+        // empty stack2 into stack1
+        while(!st2.empty()) 
         {
             st1.push(st2.top());
             st2.pop();
         }
     }
     
-    int pop() { //T.C.=O(1)
-        int popped= st1.top();
+    // T.C.=O(1)
+    int pop() { 
+        int popped = st1.top();
         st1.pop();
         return popped;
     }
     
-    int peek() { //T.C.=O(1)
+    // T.C.=O(1)
+    int peek() { 
         return st1.top();
     }
     
+    // T.C.=O(1)
     bool empty() {
         return st1.empty();
     }
