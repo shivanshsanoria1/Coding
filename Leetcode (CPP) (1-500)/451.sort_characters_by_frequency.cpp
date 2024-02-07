@@ -1,23 +1,21 @@
 class Solution {
 public:
+    // T.C.=O(n), S.C.=O(62)
     string frequencySort(string s) {
-        unordered_map<char,int> mp;
-        priority_queue<pair<int,char>> pq;
-        string ans="";
-        for(int i=0; i<s.length(); i++)
-            mp[s[i]]++;
-        for(auto it:mp)
-            pq.push({it.second,it.first});
+        unordered_map<char, int> mp; // char -> freq
+        priority_queue<pair<int, char>> pq; // max-heap
+        for(char ch: s)
+            mp[ch]++;
+        for(auto [ch, freq]: mp)
+            pq.push({freq, ch});
+        
+        string ans = "";
         while(!pq.empty())
         {
-            pair<int,char> curr=pq.top();
+            auto [freq, ch] = pq.top();
             pq.pop();
-            int freq=curr.first;
-            while(freq)
-            {
-                ans += curr.second;
-                freq--;
-            }
+            while(freq--)
+                ans += ch;
         }
         return ans;
     }
