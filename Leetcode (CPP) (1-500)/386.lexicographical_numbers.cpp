@@ -1,6 +1,6 @@
 class Solution {
 public:
-    // T.C.=O(n*logn), S.C.=O(n)
+    // T.C.=O(n*logn), S.C.=O(n), sorting (with extra vector)
     vector<int> lexicalOrder(int n) {
         vector<string> temp;
         for(int i=1; i<=n; i++)
@@ -13,4 +13,4 @@ public:
             ans.push_back(stoi(temp[i-1]));
         return ans;
     }
-};
+};  
