@@ -1,17 +1,14 @@
 class Solution {
 public:
-    int majorityElement(vector<int>& nums) { // T.C.=O(n), S.C.=O(n)
+    // T.C.=O(n), S.C.=O(n)
+    int majorityElement(vector<int>& nums) { 
         unordered_map<int, int> mp; // num -> freq
-        int ans = -1;
         for(int num: nums)
         {
             mp[num]++;
             if(mp[num] > nums.size()/2)
-            {
-                ans = num;
-                break;
-            }
+                return num;
         }
-        return ans;
+        return -1;
     }
 };
