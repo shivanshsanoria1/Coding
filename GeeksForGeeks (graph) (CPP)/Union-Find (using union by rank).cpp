@@ -1,22 +1,27 @@
+// https://www.geeksforgeeks.org/problems/union-find/1
+
 class Solution
 {
 private:
-    int findUltParent(int parent[], int curr){ // find ultimate parent
+    int findUltimateParent(int parent[], int curr){
         if(curr == parent[curr])
             return curr;
-        parent[curr] = findUltParent(parent, parent[curr]);
+            
+        parent[curr] = findUltimateParent(parent, parent[curr]);
         return parent[curr];
     }
-
+    
 public:
     //Function to merge two nodes a and b.
     void union_(int a, int b, int parent[], int rank[]) 
     {
         //code here
-        int ultPar_a = findUltParent(parent, a);
-        int ultPar_b = findUltParent(parent, b);
+        int ultPar_a = findUltimateParent(parent, a);
+        int ultPar_b = findUltimateParent(parent, b);
+        
         if(ultPar_a == ultPar_b)
             return;
+            
         if(rank[ultPar_a] < rank[ultPar_b])
             parent[ultPar_a] = ultPar_b;
         else if(rank[ultPar_a] > rank[ultPar_b])
@@ -32,6 +37,6 @@ public:
     bool isConnected(int a, int b, int parent[], int rank[])
     {
         //code here
-        return findUltParent(parent, a) == findUltParent(parent, b);
+        return findUltimateParent(parent, a) == findUltimateParent(parent, b);
     }
 };
